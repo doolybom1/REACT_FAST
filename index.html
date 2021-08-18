@@ -9,9 +9,17 @@
       const rootElement = document.getElementById("root");
 
       const App = () => {
-        const [keyword, setKeyword] = React.useState("");
+        const [keyword, setKeyword] = React.useState(() => {
+          return window.localStorage.getItem("keyword");
+        });
         const [typing, setTyping] = React.useState(false);
         const [result, setResult] = React.useState();
+
+        console.log("render");
+        React.useEffect(() => {
+          console.log("effect");
+          window.localStorage.setItem("keyword", keyword);
+        }, [keyword]);
 
         function handleChange(event) {
           setKeyword(event.target.value);
@@ -25,7 +33,7 @@
 
         return (
           <>
-            <input onChange={handleChange} />
+            <input onChange={handleChange} value={keyword} />
             <button onClick={handelClick}>search</button>
             <p>{typing ? `Looking for... ${keyword}` : result}</p>
           </>
@@ -33,7 +41,6 @@
       };
 
       ReactDOM.render(<App />, rootElement);
-      render();
     </script>
   </body>
 </html>
