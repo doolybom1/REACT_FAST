@@ -1,31 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
   <body>
+    <div id="root"></div>
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <div id="root"></div>
-    <!-- <script>
-      const rootElement = document.getElementById("root");
-      function random() {
-        const number = Math.floor(Math.random() * (10 - 1) + 1);
-        const element = `
-        <button>${number}</button>
-      `;
-        rootElement.innerHTML = element;
-      }
-
-      setInterval(random, 1000);
-    </script> -->
     <script type="text/babel">
       const rootElement = document.getElementById("root");
-      function random() {
-        const number = Math.floor(Math.random() * (10 - 1) + 1);
-        const element = <button>{number}</button>;
-        ReactDOM.render(element, rootElement);
-      }
 
-      setInterval(random, 1000);
+      const state = { keyword: "", typing: false, result: "" };
+      const App = () => {
+        function handleChange(e) {
+          setState({ typing: true, keyword: e.target.value });
+        }
+
+        function handelClick() {
+          setState({
+            typing: false,
+            result: `we find results of ${state.keyword}`
+          });
+        }
+        return (
+          <>
+            <input onChange={handleChange} />
+            <button onClick={handelClick}>search</button>
+            <p>
+              {state.typing ? `Looking for... ${state.keyword}` : state.result}
+            </p>
+          </>
+        );
+      };
+
+      function setState(newState) {
+        Object.assign(state, newState);
+        render();
+      }
+      function render() {
+        ReactDOM.render(<App />, rootElement);
+      }
+      render();
     </script>
   </body>
 </html>
