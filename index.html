@@ -8,34 +8,40 @@
     <script type="text/babel">
       const rootElement = document.getElementById("root");
 
-      const App = () => {
-        const [keyword, setKeyword] = React.useState(() => {
-          return window.localStorage.getItem("keyword");
+      const Child = () => {
+        console.log("Child render start");
+        const [text, setText] = React.useState(() => {
+          console.log("child useState");
         });
-        const [typing, setTyping] = React.useState(false);
-        const [result, setResult] = React.useState();
-
-        console.log("render");
-        React.useEffect(() => {
-          console.log("effect");
-          window.localStorage.setItem("keyword", keyword);
-        }, [keyword]);
 
         function handleChange(event) {
-          setKeyword(event.target.value);
-          setTyping(true);
+          setText(event.target.value);
         }
 
-        function handelClick() {
-          setTyping(false);
-          setResult(`we find results of ${keyword}`);
+        const element = (
+          <>
+            <input onChange={handleChange} />
+            <p>{text}</p>
+          </>
+        );
+
+        console.log("Child render end");
+        return element;
+      };
+
+      const App = () => {
+        console.log("App render start");
+        const [show, setShow] = React.useState(false);
+
+        function handleClick() {
+          setShow((prev) => !prev);
         }
 
+        console.log("App render end");
         return (
           <>
-            <input onChange={handleChange} value={keyword} />
-            <button onClick={handelClick}>search</button>
-            <p>{typing ? `Looking for... ${keyword}` : result}</p>
+            <button onClick={handleClick}>Search</button>
+            {show ? <Child /> : null}
           </>
         );
       };
