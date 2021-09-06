@@ -7,11 +7,22 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
       const App = () => {
+        const inputRef = React.useRef();
+        const divRef = React.useRef();
 
+        React.useEffect(() => {
+          inputRef.current.focus();
+          setTimeout(() => {
+            divRef.current.style.backgroundColor = "blue";
+          }, 3000);
         });
         return (
           <>
-
+            <input ref={inputRef} />
+            <div
+              ref={divRef}
+              style={{ height: 100, width: 100, backgroundColor: "brown" }}
+            ></div>
           </>
         );
       };
