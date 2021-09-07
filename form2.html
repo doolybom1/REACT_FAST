@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      const App = () => {
+        const [message, setMessage] = React.useState("");
+        const [phoneNumber, setPhoneNumber] = React.useState("");
+
+        const handleSubmit = (event) => {
+          event.preventDefault();
+          alert(phoneNumber);
+        };
+
+        const handleChange = (e) => {
+          setPhoneNumber("");
+          if (e.target.value.startsWith(0)) {
+            setMessage("검증완료");
+            setPhoneNumber(e.target.value);
+          } else if (e.target.value.length === 0) {
+            setMessage("");
+            setPhoneNumber("");
+          } else {
+            setMessage("부적절");
+          }
+        };
+        return (
+          <>
+            <form onSubmit={handleSubmit}>
+              <label htmlFor="fname">PhoneNumber:</label>
+              <br />
+              <input
+                type="text"
+                id="phone"
+                name="phone"
+                autoComplete="none"
+                onChange={handleChange}
+              />
+              <p>{message}</p>
+              <button type="submit" value="submit">
+                Submit
+              </button>
+            </form>
+          </>
+        );
+      };
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
