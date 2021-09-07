@@ -19,7 +19,6 @@
         };
 
         const handleChange = (e) => {
-          setPhoneNumber("");
           if (e.target.value.startsWith(0)) {
             setMessage("검증완료");
             setPhoneNumber(e.target.value);
@@ -28,6 +27,7 @@
             setPhoneNumber("");
           } else {
             setMessage("부적절");
+            setPhoneNumber("");
           }
         };
         return (
@@ -43,7 +43,11 @@
                 onChange={handleChange}
               />
               <p>{message}</p>
-              <button type="submit" value="submit">
+              <button
+                type="submit"
+                value="submit"
+                disabled={phoneNumber.length === 0}
+              >
                 Submit
               </button>
             </form>
