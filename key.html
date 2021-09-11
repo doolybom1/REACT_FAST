@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      const todos = [
+        { id: 1, value: "react" },
+        { id: 2, value: "next" },
+        { id: 3, value: "java" },
+        { id: 4, value: "c#" }
+      ];
+
+      const App = () => {
+        const [items, setItems] = React.useState(todos);
+        console.log({ items });
+
+        const handleDoneClick = (todo) => {
+          setItems((items) => items.filter((item) => item !== todo));
+        };
+
+        const handleRestore = () => {
+          setItems((items) => [
+            ...items,
+            todos.find((item) => !items.includes(item))
+          ]);
+        };
+
+        return (
+          <>
+            {items.map((todo) => (
+              <div key={todo.id}>
+                <span>{todo.value}</span>
+                <button
+                  style={{ margin: "5px" }}
+                  onClick={() => handleDoneClick(todo)}
+                >
+                  Done
+                </button>
+              </div>
+            ))}
+            <button onClick={handleRestore}>restore</button>
+          </>
+        );
+      };
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
